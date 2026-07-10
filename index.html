@@ -930,25 +930,7 @@ transform:scale(1.08);
 
   /* ---------------- stickers ---------------- */
 
-  const BUILT_IN_STICKERS = [
-    { id: 'heart', svg: '<svg viewBox="0 0 100 90"><path fill="#ec5c78" d="M50 86C22 66 4 49 4 29 4 13 16 3 30 3c9 0 17 5 20 13 3-8 11-13 20-13 14 0 26 10 26 26 0 20-18 37-46 57z"/></svg>' },
-    { id: 'flower', svg: '<svg viewBox="0 0 100 100"><g fill="#ff9fb2"><circle cx="50" cy="26" r="17"/><circle cx="74" cy="50" r="17"/><circle cx="50" cy="74" r="17"/><circle cx="26" cy="50" r="17"/></g><circle cx="50" cy="50" r="15" fill="#f6dcae"/></svg>' },
-    { id: 'bow', svg: '<svg viewBox="0 0 100 60"><path fill="#f2647d" d="M46 30 6 6c-4 12-4 36 0 48zM54 30l40-24c4 12 4 36 0 48z"/><circle cx="50" cy="30" r="9" fill="#ec5c78"/></svg>' },
-    { id: 'sparkle', svg: '<svg viewBox="0 0 100 100"><path fill="#eec583" d="M50 4c3 26 16 39 42 42-26 3-39 16-42 42-3-26-16-39-42-42 26-3 39-16 42-42z"/></svg>' },
-    { id: 'kiss', svg: '<svg viewBox="0 0 100 60"><path fill="#ec5c78" d="M20 24c8-14 30-14 30 4 0-18 22-18 30-4 6 11-8 24-30 32-22-8-36-21-30-32z"/></svg>' },
-    { id: 'cloud', svg: '<svg viewBox="0 0 100 60"><path fill="#e9d8f7" d="M25 50a17 17 0 010-34 22 22 0 0142-8 18 18 0 0113 33z"/></svg>' },
-    { id: 'star', svg: '<svg viewBox="0 0 100 100"><path fill="#f6dcae" d="M50 4l13 30 33 4-24 23 6 33-28-16-28 16 6-33-24-23 33-4z"/></svg>' },
-    { id: 'ribbon', svg: '<svg viewBox="0 0 100 100"><path fill="#f3bcc9" d="M50 10a20 20 0 110 40 20 20 0 010-40z"/><path fill="#ec5c78" d="M42 46l-14 44 22-12 22 12-14-44z"/></svg>' }
-  ];
-
-  let stickers = [];
-  let selectedId = null;
-  const stickerLayer = document.getElementById('dapStickerLayer');
-  const stickerFab = document.getElementById('dapStickerFab');
-  const stickerPanel = document.getElementById('dapStickerPanel');
-  const stickerPanelClose = document.getElementById('dapStickerPanelClose');
-  const stickerOptions = document.getElementById('dapStickerOptions');
-  const stickerUpload = document.getElementById('dapStickerUpload');
+ 
 
   stickerOptions.innerHTML = BUILT_IN_STICKERS.map(s =>
     `<button type="button" class="dap-sticker-option" data-sticker="${s.id}">${s.svg}</button>`
