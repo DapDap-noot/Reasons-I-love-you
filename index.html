@@ -521,6 +521,136 @@
   .dap-shuffle { width: 100%; justify-content: center; }
   .dap-sticker-panel { width: 200px; }
 }
+
+.update-popup{
+
+position:fixed;
+inset:0;
+
+background:rgba(0,0,0,.45);
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+z-index:99999;
+
+backdrop-filter:blur(8px);
+
+transition:.35s;
+
+}
+
+.hidden{
+
+opacity:0;
+pointer-events:none;
+
+}
+
+.update-card{
+
+background:white;
+
+width:330px;
+
+max-width:90%;
+
+border-radius:25px;
+
+padding:30px;
+
+text-align:center;
+
+box-shadow:0 20px 60px rgba(0,0,0,.25);
+
+animation:pop .35s ease;
+
+}
+
+.heart{
+
+font-size:60px;
+
+margin-bottom:15px;
+
+animation:pulse 2s infinite;
+
+}
+
+.update-card h2{
+
+margin-bottom:10px;
+
+}
+
+.update-card p{
+
+line-height:1.6;
+
+color:#666;
+
+margin-bottom:25px;
+
+}
+
+#updateBtn{
+
+border:none;
+
+background:#F78DA7;
+
+color:white;
+
+padding:14px 28px;
+
+border-radius:30px;
+
+font-size:16px;
+
+cursor:pointer;
+
+transition:.25s;
+
+}
+
+#updateBtn:hover{
+
+transform:scale(1.05);
+
+}
+
+@keyframes pop{
+
+from{
+
+transform:scale(.8);
+
+opacity:0;
+
+}
+
+to{
+
+transform:scale(1);
+
+opacity:1;
+
+}
+
+}
+
+@keyframes pulse{
+
+50%{
+
+transform:scale(1.08);
+
+}
+
+}
 </style>
 
 <div class="dap-root" id="dapRoot">
@@ -988,12 +1118,83 @@
 </script>
 <script>
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js")
-      .then(reg => console.log("Service Worker registered:", reg.scope))
-      .catch(err => console.log("Service Worker failed:", err));
-  });
+
+    window.addEventListener("load", async () => {
+
+        const registration =
+            await navigator.serviceWorker.register("./service-worker.js");
+
+        registration.addEventListener("updatefound", () => {
+
+            const worker = registration.installing;
+
+            worker.addEventListener("statechange", () => {
+
+                if (
+                    worker.state === "installed" &&
+                    navigator.serviceWorker.controller
+                ) {
+
+                    showUpdatePopup();
+
+                }
+
+            });
+
+        });
+
+    });
+
 }
+
+function showUpdatePopup() {
+
+    document
+        .getElementById("updatePopup")
+        .classList.remove("hidden");
+
+}
+
+document
+.getElementById("updateBtn")
+.addEventListener("click", () => {
+
+    window.location.reload();
+
+});
 </script>
+<script>
+setInterval(async () => {
+
+    if (!navigator.serviceWorker) return;
+
+    const registration = await navigator.serviceWorker.getRegistration();
+
+    if (registration) {
+
+        registration.update();
+
+    }
+
+}, 60000);
+</script>
+<!-- Update Popup -->
+<div id="updatePopup" class="update-popup hidden">
+    <div class="update-card">
+
+        <div class="heart">💖</div>
+
+        <h2>A Little Surprise!</h2>
+
+        <p>
+            I've added new reasons why I love you.
+        </p>
+
+        <button id="updateBtn">
+            Read Them ❤️
+        </button>
+
+    </div>
+</div>
 </body>
 </html>
