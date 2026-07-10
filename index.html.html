@@ -1,0 +1,966 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Newsreader:ital,wght@0,400;0,500;1,400&family=Caveat:wght@500;600;700&display=swap');
+
+.dap-root {
+  --white: #fffefc;
+  --cream: #fff7f2;
+  --blush: #ffeef2;
+  --blush-mid: #ffd9e2;
+  --lavender: #f1e9fb;
+  --peach: #ffe3d1;
+  --pink: #ff8fa6;
+  --pink-deep: #ec5c78;
+  --rose-line: #f3bcc9;
+  --gold: #eec583;
+  --gold-soft: #f6dcae;
+  --ink: #4c3540;
+  --ink-soft: #7a5d68;
+  --muted: #b9989f;
+  font-family: 'Newsreader', serif;
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse 90% 60% at 12% 0%, var(--blush) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 55% at 100% 15%, var(--lavender) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 90% 90%, var(--peach) 0%, transparent 55%),
+    var(--white);
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.dap-root * { box-sizing: border-box; }
+
+/* ---------- background life: blobs, doodle texture, drifting petals ---------- */
+
+.dap-blobs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.dap-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(38px);
+  opacity: 0.55;
+}
+
+.dap-pattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='none' stroke='%23f3bcc9' stroke-width='1.4' opacity='0.55'%3E%3Cpath d='M30 22c-4-8-16-6-16 3 0 8 9 13 16 20 7-7 16-12 16-20 0-9-12-11-16-3z'/%3E%3C/g%3E%3Cg fill='none' stroke='%23e9d8f7' stroke-width='1.2' opacity='0.5'%3E%3Cpath d='M90 78c9 0 9 12 0 12s-9-12 0-12z'/%3E%3Cpath d='M90 90v14M84 100h12'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}
+
+.dap-petals {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.dap-petal {
+  position: absolute;
+  bottom: -30px;
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dap-petal { animation: dapFloat linear infinite; }
+}
+@keyframes dapFloat {
+  0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.7; }
+  50% { transform: translateY(-52vh) translateX(var(--dap-drift, 20px)) rotate(180deg); }
+  90% { opacity: 0.5; }
+  100% { transform: translateY(-100vh) translateX(0) rotate(360deg); opacity: 0; }
+}
+
+/* ---------- layout ---------- */
+
+.dap-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 56px 20px 90px;
+}
+
+.dap-hero {
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.dap-eyebrow {
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--pink-deep);
+  letter-spacing: 0.02em;
+  margin-bottom: 4px;
+}
+
+.dap-heart-badge {
+  width: 96px;
+  height: 96px;
+  margin: 8px auto 16px;
+  position: relative;
+}
+.dap-heart-badge svg { width: 100%; height: 100%; filter: drop-shadow(0 10px 18px rgba(236, 92, 120, 0.35)); }
+.dap-heart-count {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 6px;
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 26px;
+  color: #fff;
+}
+
+.dap-title {
+  font-family: 'Fraunces', serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-size: clamp(32px, 8vw, 48px);
+  line-height: 1.08;
+  margin: 0 0 10px;
+  color: var(--ink);
+}
+.dap-title em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--pink-deep);
+}
+
+.dap-sub {
+  color: var(--ink-soft);
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: 21px;
+  margin: 0;
+}
+
+.dap-controls {
+  display: flex;
+  gap: 10px;
+  margin: 30px 0 8px;
+  align-items: center;
+}
+
+.dap-search {
+  flex: 1;
+  background: var(--white);
+  border: 1px solid var(--rose-line);
+  border-radius: 999px;
+  padding: 12px 18px;
+  color: var(--ink);
+  font-family: 'Newsreader', serif;
+  font-size: 15px;
+  outline: none;
+  box-shadow: 0 3px 10px rgba(236, 92, 120, 0.08);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.dap-search::placeholder { color: var(--muted); }
+.dap-search:focus { border-color: var(--pink); box-shadow: 0 3px 14px rgba(236, 92, 120, 0.18); }
+
+.dap-shuffle {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+  border: none;
+  color: #fff5f7;
+  font-family: 'Newsreader', serif;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 999px;
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 4px 16px rgba(236, 92, 120, 0.32);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+}
+.dap-shuffle:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(236, 92, 120, 0.42); }
+.dap-shuffle:active { transform: translateY(0); }
+
+.dap-spotlight {
+  position: relative;
+  margin: 22px 0 6px;
+  padding: 26px 24px;
+  border-radius: 18px;
+  background: linear-gradient(160deg, var(--white), var(--blush));
+  color: var(--ink);
+  box-shadow: 0 18px 40px rgba(236, 92, 120, 0.18), 0 0 0 1px var(--rose-line) inset;
+  transform-origin: top center;
+  animation: dapSpotlightIn 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+@keyframes dapSpotlightIn {
+  from { opacity: 0; transform: translateY(-14px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.dap-spotlight-label {
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--pink-deep);
+  margin-bottom: 6px;
+  display: block;
+}
+.dap-spotlight-text {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(19px, 4.4vw, 23px);
+  line-height: 1.4;
+  margin: 0;
+}
+.dap-spotlight-close {
+  position: absolute;
+  top: 14px; right: 16px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+}
+
+.dap-count-line {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  margin: 26px 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.dap-count-line::before, .dap-count-line::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rose-line), transparent);
+}
+.dap-count-line span { color: var(--pink-deep); white-space: nowrap; }
+
+.dap-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dap-card {
+  position: relative;
+  background: linear-gradient(155deg, var(--white), var(--cream));
+  color: var(--ink);
+  border-radius: 14px;
+  padding: 16px 20px;
+  box-shadow: 0 10px 22px rgba(236, 92, 120, 0.14), 0 0 0 1px var(--rose-line) inset;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.dap-card:nth-child(even) { transform: rotate(-0.5deg); }
+.dap-card:nth-child(odd) { transform: rotate(0.5deg); }
+.dap-card:hover { transform: translateY(-2px) rotate(0deg); box-shadow: 0 14px 28px rgba(236, 92, 120, 0.2), 0 0 0 1px var(--pink) inset; }
+
+.dap-card::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 22px;
+  width: 34px;
+  height: 14px;
+  border-radius: 2px;
+  opacity: 0.85;
+  transform: rotate(-3deg);
+}
+.dap-card:nth-child(3n)::before { background: var(--blush-mid); left: 22px; transform: rotate(-3deg); }
+.dap-card:nth-child(3n+1)::before { background: var(--lavender); left: auto; right: 26px; transform: rotate(4deg); }
+.dap-card:nth-child(3n+2)::before { background: var(--peach); left: 50%; margin-left: -17px; transform: rotate(-2deg); }
+
+.dap-num {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--pink-deep);
+  min-width: 34px;
+  text-align: right;
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+.dap-text {
+  font-size: 16.5px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.dap-empty {
+  text-align: center;
+  color: var(--muted);
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: 20px;
+  padding: 30px 0;
+}
+
+.dap-more {
+  display: block;
+  margin: 20px auto 0;
+  background: var(--white);
+  border: 1px solid var(--rose-line);
+  color: var(--pink-deep);
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-family: 'Newsreader', serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.dap-more:hover { background: var(--blush); box-shadow: 0 4px 14px rgba(236, 92, 120, 0.16); }
+
+.dap-footer-note {
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 18px;
+  margin-top: 40px;
+}
+
+/* ---------- stickers ---------- */
+
+.dap-sticker-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.dap-sticker {
+  position: absolute;
+  pointer-events: auto;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  filter: drop-shadow(0 6px 10px rgba(76, 53, 64, 0.18));
+  transition: filter 0.15s ease;
+}
+.dap-sticker:active { cursor: grabbing; }
+.dap-sticker svg { display: block; width: 100%; height: 100%; }
+.dap-sticker img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.dap-sticker.dap-selected {
+  outline: 2px dashed var(--pink);
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+
+.dap-sticker-toolbar {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  background: var(--white);
+  border: 1px solid var(--rose-line);
+  border-radius: 999px;
+  padding: 5px 6px;
+  box-shadow: 0 8px 18px rgba(76, 53, 64, 0.18);
+  white-space: nowrap;
+}
+.dap-sticker-toolbar button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 15px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-soft);
+  transition: background 0.15s ease;
+}
+.dap-sticker-toolbar button:hover { background: var(--blush); }
+.dap-sticker-toolbar button.dap-sticker-delete { color: var(--pink-deep); }
+
+.dap-sticker-tray {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 20;
+}
+.dap-sticker-fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(236, 92, 120, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
+.dap-sticker-fab:hover { transform: scale(1.06); }
+
+.dap-sticker-panel {
+  position: absolute;
+  right: 0;
+  bottom: 68px;
+  width: 220px;
+  background: var(--white);
+  border: 1px solid var(--rose-line);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 16px 36px rgba(76, 53, 64, 0.22);
+}
+.dap-sticker-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.dap-sticker-panel-title {
+  font-family: 'Caveat', cursive;
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--pink-deep);
+}
+.dap-sticker-panel-close {
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+}
+.dap-sticker-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.dap-sticker-option {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1px solid var(--rose-line);
+  background: var(--cream);
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 6px;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.dap-sticker-option:hover { transform: translateY(-1px); background: var(--blush); }
+.dap-sticker-option svg { width: 100%; height: 100%; }
+
+.dap-sticker-upload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px dashed var(--pink);
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 13.5px;
+  color: var(--pink-deep);
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease;
+}
+.dap-sticker-upload:hover { background: var(--blush); }
+
+.dap-sticker-hint {
+  font-size: 11.5px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+@media (max-width: 420px) {
+  .dap-controls { flex-wrap: wrap; }
+  .dap-shuffle { width: 100%; justify-content: center; }
+  .dap-sticker-panel { width: 200px; }
+}
+</style>
+
+<div class="dap-root" id="dapRoot">
+  <div class="dap-blobs" id="dapBlobs"></div>
+  <div class="dap-pattern"></div>
+  <div class="dap-petals" id="dapPetals"></div>
+  <div class="dap-sticker-layer" id="dapStickerLayer"></div>
+
+  <div class="dap-wrap">
+
+    <div class="dap-hero">
+      <div class="dap-eyebrow">a running list, since the beginning</div>
+      <div class="dap-heart-badge">
+        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="dapHeartGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ff9fb2"/>
+              <stop offset="100%" stop-color="#ec5c78"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#dapHeartGrad)" d="M50 86C22 66 4 49 4 29 4 13 16 3 30 3c9 0 17 5 20 13 3-8 11-13 20-13 14 0 26 10 26 26 0 20-18 37-46 57z"/>
+        </svg>
+        <div class="dap-heart-count" id="dapMoonCount">200</div>
+      </div>
+      <h1 class="dap-title">Reasons I love <em>you</em></h1>
+      <p class="dap-sub">and counting, from wherever I am to wherever you are</p>
+    </div>
+
+    <div class="dap-controls">
+      <input class="dap-search" id="dapSearch" type="text" placeholder="Search a reason..." />
+      <button class="dap-shuffle" id="dapShuffle">🌠 Surprise me</button>
+    </div>
+
+    <div id="dapSpotlightHolder"></div>
+
+    <div class="dap-count-line"><span id="dapCountLine">200 reasons, and it keeps growing</span></div>
+
+    <div class="dap-list" id="dapList"></div>
+    <div id="dapEmpty" class="dap-empty" style="display:none;">no reasons match that search — but there are hundreds more below 🤍</div>
+    <button class="dap-more" id="dapMore" style="display:none;">show more reasons</button>
+
+    <p class="dap-footer-note">this list is never finished. i'll keep adding to it for as long as i'm loving you.</p>
+  </div>
+
+  <div class="dap-sticker-tray">
+    <button class="dap-sticker-fab" id="dapStickerFab" aria-label="Add sticker" title="Add sticker">🎀</button>
+    <div class="dap-sticker-panel" id="dapStickerPanel" hidden>
+      <div class="dap-sticker-panel-head">
+        <span class="dap-sticker-panel-title">add a sticker</span>
+        <button class="dap-sticker-panel-close" id="dapStickerPanelClose" aria-label="close">×</button>
+      </div>
+      <div class="dap-sticker-options" id="dapStickerOptions"></div>
+      <label class="dap-sticker-upload">
+        📎 upload a PNG
+        <input type="file" accept="image/png,image/jpeg,image/webp" id="dapStickerUpload" hidden />
+      </label>
+      <div class="dap-sticker-hint">drag stickers anywhere · tap one to resize, rotate or delete</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const STORAGE_KEY = 'reasons';
+  const STICKER_KEY = 'stickers';
+  const SHARED = true;
+
+  const SEED_REASONS = [
+    "Your smile","Your laugh","Your eyes","Your grin","Your eyebrows","Your teeth","Your lips","Your nose",
+    "Your hair styled","Your hands (PLEASE TAKE BETTER CARE)","Your smirk","Your style","Your humor",
+    "Your dedication","Your patience","The way you call me hubby","The way you say good morning",
+    "Whenever you tell me to eat well","Your presence","Your comfort","Whenever you hmm","Whenever u sing",
+    "Your cute moles","Your face 😍","Ehem mochi and dango hehe","Your stomach ehem ehem",
+    "How you care for people who mean so much to you especially your dad","How hard you work for us",
+    "Your maturity","Your immaturity lol","Your sleepy voice when u wake up",
+    "Whenever you welcome me back or when im going out","The way you say ni-","Your drawings",
+    "Your silly poses and pictures","How you respect me and my choices","How you support me in everything i do",
+    "Your movie/show recommendations","How you cherish what people give you","How strong you are mentally",
+    "I love calling you my girlfriend","I love calling you my wife","How you talk about our future",
+    "YOUR DANCING LOL I STILL REMEMBER HAHA","Your freaky side hehe","Your weird side (my fav)",
+    "Whenever you blow kisses","Your voice holy Your voice is my fav","Your art",
+    "I love you honey mwah mwah ❤️","The way you try to hide when u get shy","The way you scrunch your nose",
+    "How you remember tiny details about me","How you say my name when you're annoyed lol",
+    "Your competitive side during games","How you pout (i can tell by the way u talk) when you lose",
+    "How you still say \"hug me\" over call, even from far away","How you hum","Your handwriting",
+    "How you still sit through a call even when you're exhausted from work","How you get excited over food",
+    "Your bravery when things get hard","How honest you are with me","Your random thoughts you text me",
+    "The way you say \"wait wait wait\" or \"did you know?\" before telling a story",
+    "Your storytelling, even the long ones","How you always double check if I ate",
+    "Your protectiveness over the people you love","How you apologize when you're wrong",
+    "The kiss you always send, like it's real","The way you fall asleep on calls","Your morning texts",
+    "Your soft spot for animals","How you talk to pets in baby voice","Your organized chaos",
+    "How you plan surprises for me","Your terrible jokes that make me laugh anyway",
+    "The way you say \"no but listen\"","How you remember our inside jokes","Your loyalty",
+    "How you never give up on us","The way you style your clothing","How you dance to TikTok dances",
+    "Your bad singing that I secretly love","How you take care of me when I'm sick over the phone",
+    "The way you say \"take care\" every time","Your ambition","How you dream big for us",
+    "Your soft heart under all the sarcasm","How you tease me but mean well",
+    "Your resting face that looks mad but isn't","How you get shy over compliments",
+    "Your effort in every little thing you do","The way you say my name softly",
+    "How just hearing your voice fixes my whole day",
+    "How you still make time for me between shifts, even exhausted","Your jealousy that you try to hide",
+    "How you always choose us over pride","Your patience with my nonsense","The way you listen when I rant",
+    "Your advice","How you never make me feel small","Your childhood stories",
+    "How your eyes light up talking about your passions","How you save memes for me",
+    "Your bad moods that still soften around me","How you never sleep angry","Your forgiveness",
+    "The way you say sorry first","Your quiet strength","How you show up even when tired",
+    "Your effort to understand me","The way you remember my schedule better than I do",
+    "Your reminders to drink water","How you keep photos of me","Your nostalgia over small moments",
+    "How you say \"remember when\"","How you still wake up at 4am and show up for work",
+    "How you make your data last just to keep talking to me",
+    "How you squeeze in a text on your break just so I know you're okay","Your calm during my panics",
+    "How you ground me","Your silence that still comforts me",
+    "How you stay on the phone with me even in silence, just so I'm not alone","Your randomness",
+    "How you make ordinary days feel special","Your excitement over small wins","How proud you get of me",
+    "How you defend me","How protective you are of me even from miles away","Your manners",
+    "How you treat strangers kindly","Your patience with kids LOL",
+    "How gentle you are with people who are struggling","Your empathy","How you cry at movies and deny it",
+    "Your soft spot for sad songs","How you get quiet when you're deep in thought",
+    "How you always come back to talk it out","Your communication, even when it's hard",
+    "How you never give me silent treatment for long ehem","Your maturity in fights",
+    "How you choose us over winning arguments","Your softness after an argument",
+    "How you always check if I'm okay after","Your care in little gestures","Your thoughtfulness in gifts",
+    "How you notice when something's off with me","Your intuition about my moods",
+    "How you always know what to say","Your comfort food recommendations","Your generosity",
+    "How you never make me feel like a burden","Your patience teaching me things",
+    "How you explain things simply","Your knowledge, you know a bit of everything",
+    "How curious you are about the world","Your love for learning","How you get invested in random topics",
+    "Your rants about things you're passionate about","How cute you look mid-rant",
+    "Your determination once you set a goal","How you never really quit on things that matter",
+    "Your resilience","How you bounce back from bad days","Your optimism, even when it's hard to have",
+    "How you make me believe in good things again","Your faith in us",
+    "How you never doubt \"us\" even when you doubt yourself","Your vulnerability with me",
+    "How you let me see you cry","Your trust in me","How safe I feel with you","Your home-like feeling",
+    "How you feel like comfort and adventure at once","Your future plans that always include me",
+    "How you say \"when we\" instead of \"if we\"","Your little rituals with me",
+    "How you never let a day pass without saying you love me","Your everything, honestly",
+    "How lucky I feel to call you mine","How you never make the distance feel like an excuse",
+    "How you send me pics of your day so I feel included in it",
+    "How you never end a call without saying goodnight properly",
+    "How you never let the distance stop you from being present in my life",
+    "How you make me feel close to you despite the miles between us",
+    "How you show me around wherever you are through video call",
+    "How you text \"im home\" so I don't worry",
+    "How you text \"welcome home\" which makes me feel im at home with you",
+    "How you make effort to learn things about where I live",
+    "The way you make effort to learn about my culture and religion",
+    "How open you are to adopting my culture","How you fall asleep on call just to feel like I'm there",
+    "How out of a whole group, it was always you I kept talking to after everyone else logged off",
+    "How during my worst week, you still showed up for me",
+    "How you've never made this feel one-sided, even from a whole country away",
+    "How loving you long distance taught me patience I didn't know I had",
+    "How whatever it takes to get to you, I'd rather do that than not have you",
+    "How I know this type of love isn't easy, but the one that lasts a lifetime",
+    "I love you, today, tomorrow, and every day after mwah mwah ❤️"
+  ];
+
+  let reasons = [];
+  let visibleCount = 30;
+  const BATCH = 30;
+
+  const listEl = document.getElementById('dapList');
+  const emptyEl = document.getElementById('dapEmpty');
+  const moreBtn = document.getElementById('dapMore');
+  const searchEl = document.getElementById('dapSearch');
+  const moonCountEl = document.getElementById('dapMoonCount');
+  const countLineEl = document.getElementById('dapCountLine');
+  const shuffleBtn = document.getElementById('dapShuffle');
+  const spotlightHolder = document.getElementById('dapSpotlightHolder');
+
+  function makeBlobs() {
+    const holder = document.getElementById('dapBlobs');
+    const specs = [
+      { top: '-60px', left: '-40px', size: 220, color: 'var(--blush-mid)' },
+      { top: '120px', left: '78%', size: 260, color: 'var(--lavender)' },
+      { top: '55%', left: '-60px', size: 200, color: 'var(--peach)' },
+      { top: '80%', left: '70%', size: 240, color: 'var(--blush)' }
+    ];
+    holder.innerHTML = specs.map(s =>
+      `<div class="dap-blob" style="top:${s.top};left:${s.left};width:${s.size}px;height:${s.size}px;background:${s.color};"></div>`
+    ).join('');
+  }
+
+  function makePetals() {
+    const holder = document.getElementById('dapPetals');
+    let html = '';
+    const hearts = ['#ff9fb2', '#f3bcc9', '#e9c3ec'];
+    for (let i = 0; i < 14; i++) {
+      const left = Math.random() * 100;
+      const size = Math.random() * 10 + 10;
+      const duration = (Math.random() * 10 + 14).toFixed(1);
+      const delay = (Math.random() * 14).toFixed(1);
+      const drift = (Math.random() * 60 - 30).toFixed(0);
+      const color = hearts[i % hearts.length];
+      html += `<svg class="dap-petal" viewBox="0 0 32 28" style="left:${left}%;width:${size}px;height:${size}px;animation-duration:${duration}s;animation-delay:${delay}s;--dap-drift:${drift}px;">
+        <path fill="${color}" d="M16 26C7 20 1 15 1 9 1 4 5 1 9 1c3 0 6 2 7 5 1-3 4-5 7-5 4 0 8 3 8 8 0 6-6 11-15 17z"/>
+      </svg>`;
+    }
+    holder.innerHTML = html;
+  }
+
+  async function loadReasons() {
+    try {
+      const result = await window.storage.get(STORAGE_KEY, SHARED);
+      if (result && result.value) {
+        reasons = JSON.parse(result.value);
+      } else {
+        reasons = SEED_REASONS.map((t, i) => ({ id: 'r' + i, text: t }));
+        await window.storage.set(STORAGE_KEY, JSON.stringify(reasons), SHARED);
+      }
+    } catch (e) {
+      reasons = SEED_REASONS.map((t, i) => ({ id: 'r' + i, text: t }));
+      try { await window.storage.set(STORAGE_KEY, JSON.stringify(reasons), SHARED); } catch (e2) {}
+    }
+    renderAll();
+  }
+
+  function renderAll() {
+    moonCountEl.textContent = reasons.length;
+    countLineEl.textContent = reasons.length + ' reasons, and it keeps growing';
+    renderList();
+  }
+
+  function renderList() {
+    const query = searchEl.value.trim().toLowerCase();
+    const filtered = query
+      ? reasons.filter(r => r.text.toLowerCase().includes(query))
+      : reasons;
+
+    const slice = query ? filtered : filtered.slice(0, visibleCount);
+
+    listEl.innerHTML = '';
+    if (slice.length === 0) {
+      emptyEl.style.display = 'block';
+    } else {
+      emptyEl.style.display = 'none';
+      slice.forEach((r) => {
+        const idx = reasons.indexOf(r) + 1;
+        const card = document.createElement('div');
+        card.className = 'dap-card';
+        card.innerHTML = `<span class="dap-num">${idx}.</span><p class="dap-text"></p>`;
+        card.querySelector('.dap-text').textContent = r.text;
+        listEl.appendChild(card);
+      });
+    }
+
+    moreBtn.style.display = (!query && filtered.length > visibleCount) ? 'block' : 'none';
+  }
+
+  moreBtn.addEventListener('click', () => {
+    visibleCount += BATCH;
+    renderList();
+  });
+
+  searchEl.addEventListener('input', () => renderList());
+
+  shuffleBtn.addEventListener('click', () => {
+    if (reasons.length === 0) return;
+    const pick = reasons[Math.floor(Math.random() * reasons.length)];
+    spotlightHolder.innerHTML = `
+      <div class="dap-spotlight">
+        <button class="dap-spotlight-close" aria-label="close">×</button>
+        <span class="dap-spotlight-label">reason #${reasons.indexOf(pick) + 1}</span>
+        <p class="dap-spotlight-text"></p>
+      </div>
+    `;
+    spotlightHolder.querySelector('.dap-spotlight-text').textContent = pick.text;
+    spotlightHolder.querySelector('.dap-spotlight-close').addEventListener('click', () => {
+      spotlightHolder.innerHTML = '';
+    });
+  });
+
+  makeBlobs();
+  makePetals();
+  loadReasons();
+
+  /* ---------------- stickers ---------------- */
+
+  const BUILT_IN_STICKERS = [
+    { id: 'heart', svg: '<svg viewBox="0 0 100 90"><path fill="#ec5c78" d="M50 86C22 66 4 49 4 29 4 13 16 3 30 3c9 0 17 5 20 13 3-8 11-13 20-13 14 0 26 10 26 26 0 20-18 37-46 57z"/></svg>' },
+    { id: 'flower', svg: '<svg viewBox="0 0 100 100"><g fill="#ff9fb2"><circle cx="50" cy="26" r="17"/><circle cx="74" cy="50" r="17"/><circle cx="50" cy="74" r="17"/><circle cx="26" cy="50" r="17"/></g><circle cx="50" cy="50" r="15" fill="#f6dcae"/></svg>' },
+    { id: 'bow', svg: '<svg viewBox="0 0 100 60"><path fill="#f2647d" d="M46 30 6 6c-4 12-4 36 0 48zM54 30l40-24c4 12 4 36 0 48z"/><circle cx="50" cy="30" r="9" fill="#ec5c78"/></svg>' },
+    { id: 'sparkle', svg: '<svg viewBox="0 0 100 100"><path fill="#eec583" d="M50 4c3 26 16 39 42 42-26 3-39 16-42 42-3-26-16-39-42-42 26-3 39-16 42-42z"/></svg>' },
+    { id: 'kiss', svg: '<svg viewBox="0 0 100 60"><path fill="#ec5c78" d="M20 24c8-14 30-14 30 4 0-18 22-18 30-4 6 11-8 24-30 32-22-8-36-21-30-32z"/></svg>' },
+    { id: 'cloud', svg: '<svg viewBox="0 0 100 60"><path fill="#e9d8f7" d="M25 50a17 17 0 010-34 22 22 0 0142-8 18 18 0 0113 33z"/></svg>' },
+    { id: 'star', svg: '<svg viewBox="0 0 100 100"><path fill="#f6dcae" d="M50 4l13 30 33 4-24 23 6 33-28-16-28 16 6-33-24-23 33-4z"/></svg>' },
+    { id: 'ribbon', svg: '<svg viewBox="0 0 100 100"><path fill="#f3bcc9" d="M50 10a20 20 0 110 40 20 20 0 010-40z"/><path fill="#ec5c78" d="M42 46l-14 44 22-12 22 12-14-44z"/></svg>' }
+  ];
+
+  let stickers = [];
+  let selectedId = null;
+  const stickerLayer = document.getElementById('dapStickerLayer');
+  const stickerFab = document.getElementById('dapStickerFab');
+  const stickerPanel = document.getElementById('dapStickerPanel');
+  const stickerPanelClose = document.getElementById('dapStickerPanelClose');
+  const stickerOptions = document.getElementById('dapStickerOptions');
+  const stickerUpload = document.getElementById('dapStickerUpload');
+
+  stickerOptions.innerHTML = BUILT_IN_STICKERS.map(s =>
+    `<button type="button" class="dap-sticker-option" data-sticker="${s.id}">${s.svg}</button>`
+  ).join('');
+
+  async function loadStickers() {
+    try {
+      const result = await window.storage.get(STICKER_KEY, SHARED);
+      stickers = (result && result.value) ? JSON.parse(result.value) : [];
+    } catch (e) {
+      stickers = [];
+    }
+    renderStickers();
+  }
+
+  async function saveStickers() {
+    try { await window.storage.set(STICKER_KEY, JSON.stringify(stickers), SHARED); } catch (e) {}
+  }
+
+  function renderStickers() {
+    stickerLayer.innerHTML = '';
+    stickers.forEach(s => stickerLayer.appendChild(buildStickerEl(s)));
+  }
+
+  function buildStickerEl(s) {
+    const el = document.createElement('div');
+    el.className = 'dap-sticker';
+    el.dataset.id = s.id;
+    el.style.left = s.x + '%';
+    el.style.top = s.y + '%';
+    el.style.width = (s.size || 70) + 'px';
+    el.style.height = (s.size || 70) + 'px';
+    el.style.transform = `translate(-50%, -50%) rotate(${s.rot || 0}deg)`;
+    if (s.type === 'image') {
+      el.innerHTML = `<img src="${s.content}" alt="sticker" draggable="false" />`;
+    } else {
+      el.innerHTML = s.content;
+    }
+    attachStickerEvents(el, s);
+    if (s.id === selectedId) {
+      el.classList.add('dap-selected');
+      el.appendChild(buildToolbar(s));
+    }
+    return el;
+  }
+
+  function buildToolbar(s) {
+    const tb = document.createElement('div');
+    tb.className = 'dap-sticker-toolbar';
+    tb.innerHTML = `
+      <button type="button" data-act="smaller" title="smaller">–</button>
+      <button type="button" data-act="bigger" title="bigger">+</button>
+      <button type="button" data-act="rotate" title="rotate">↺</button>
+      <button type="button" class="dap-sticker-delete" data-act="delete" title="delete">×</button>
+    `;
+    tb.addEventListener('pointerdown', e => e.stopPropagation());
+    tb.addEventListener('click', (e) => {
+      const act = e.target.closest('button')?.dataset.act;
+      if (!act) return;
+      if (act === 'smaller') s.size = Math.max(28, (s.size || 70) - 12);
+      if (act === 'bigger') s.size = Math.min(220, (s.size || 70) + 12);
+      if (act === 'rotate') s.rot = ((s.rot || 0) + 20) % 360;
+      if (act === 'delete') {
+        stickers = stickers.filter(x => x.id !== s.id);
+        selectedId = null;
+      }
+      saveStickers();
+      renderStickers();
+    });
+    return tb;
+  }
+
+  function attachStickerEvents(el, s) {
+    let dragging = false;
+    let startX, startY, origX, origY;
+
+    el.addEventListener('pointerdown', (e) => {
+      e.stopPropagation();
+      dragging = true;
+      selectedId = s.id;
+      el.setPointerCapture(e.pointerId);
+      startX = e.clientX;
+      startY = e.clientY;
+      origX = s.x;
+      origY = s.y;
+      renderStickers();
+    });
+
+    el.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const rootRect = document.getElementById('dapRoot').getBoundingClientRect();
+      const dx = ((e.clientX - startX) / rootRect.width) * 100;
+      const dy = ((e.clientY - startY) / rootRect.height) * 100;
+      s.x = Math.min(98, Math.max(2, origX + dx));
+      s.y = Math.min(98, Math.max(2, origY + dy));
+      el.style.left = s.x + '%';
+      el.style.top = s.y + '%';
+    });
+
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      saveStickers();
+    }
+    el.addEventListener('pointerup', endDrag);
+    el.addEventListener('pointercancel', endDrag);
+  }
+
+  document.getElementById('dapRoot').addEventListener('pointerdown', (e) => {
+    if (!e.target.closest('.dap-sticker')) {
+      if (selectedId !== null) { selectedId = null; renderStickers(); }
+    }
+  });
+
+  function addSticker(type, content) {
+    const s = {
+      id: 's' + Date.now() + Math.floor(Math.random() * 999),
+      type,
+      content,
+      x: 20 + Math.random() * 60,
+      y: 15 + Math.random() * 60,
+      size: 70,
+      rot: Math.floor(Math.random() * 20 - 10)
+    };
+    stickers.push(s);
+    selectedId = s.id;
+    saveStickers();
+    renderStickers();
+  }
+
+  stickerFab.addEventListener('click', () => {
+    stickerPanel.hidden = !stickerPanel.hidden;
+  });
+  stickerPanelClose.addEventListener('click', () => { stickerPanel.hidden = true; });
+
+  stickerOptions.addEventListener('click', (e) => {
+    const btn = e.target.closest('.dap-sticker-option');
+    if (!btn) return;
+    const found = BUILT_IN_STICKERS.find(s => s.id === btn.dataset.sticker);
+    if (found) addSticker('svg', found.svg);
+  });
+
+  stickerUpload.addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 260;
+        const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/png');
+        addSticker('image', dataUrl);
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+    stickerUpload.value = '';
+  });
+
+  loadStickers();
+})();
+</script>
