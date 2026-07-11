@@ -1,87 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Reasons I Love You ❤️</title>
+<title>A Little Place For You ❤️</title>
 
-    <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="styles.css">
 
-    <meta name="theme-color" content="#F78DA7">
-
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Love ❤️">
-
-    <link rel="apple-touch-icon" href="icon-192.png">
-    <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body class="login-page">
 
-<div class="dap-root" id="dapRoot">
-  <div class="dap-blobs" id="dapBlobs"></div>
-  <div class="dap-pattern"></div>
-  <div class="dap-petals" id="dapPetals"></div>
-  <div class="dap-sticker-layer" id="dapStickerLayer"></div>
+<div class="dap-blobs" id="dapBlobs"></div>
+<div class="dap-pattern"></div>
+<div class="dap-petals" id="dapPetals"></div>
+<div class="background-glow"></div>
 
-  <div class="dap-wrap">
+<h1>A Little Place Just For You</h1>
 
-    <div class="dap-hero">
-      <div class="dap-eyebrow">a running list, since the beginning</div>
-      <div class="dap-heart-badge">
-        <svg viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="dapHeartGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#ff9fb2"/>
-              <stop offset="100%" stop-color="#ec5c78"/>
-            </linearGradient>
-          </defs>
-          <path fill="url(#dapHeartGrad)" d="M50 86C22 66 4 49 4 29 4 13 16 3 30 3c9 0 17 5 20 13 3-8 11-13 20-13 14 0 26 10 26 26 0 20-18 37-46 57z"/>
-        </svg>
-        <div class="dap-heart-count" id="dapMoonCount">200</div>
-      </div>
-      <h1 class="dap-title">Reasons I love <em>you</em></h1>
-      <p class="dap-sub">and counting, from wherever I am to wherever you are</p>
-    </div>
+<p class="subtitle">
 
-    <div class="dap-controls">
-      <input class="dap-search" id="dapSearch" type="text" placeholder="Search a reason..." />
-      <button class="dap-shuffle" id="dapShuffle">🌠 Surprise me</button>
-    </div>
+Before we step inside...
 
-    <div id="dapSpotlightHolder"></div>
+Tell me our special word.
 
-    <div class="dap-count-line"><span id="dapCountLine">200 reasons, and it keeps growing</span></div>
+</p>
 
-    <div class="dap-list" id="dapList"></div>
-    <div id="dapEmpty" class="dap-empty" style="display:none;">no reasons match that search — but there are hundreds more below 🤍</div>
-    <button class="dap-more" id="dapMore" style="display:none;">show more reasons</button>
+<div class="password-container">
 
-    <p class="dap-footer-note">this list is never finished. i'll keep adding to it for as long as i'm loving you.</p>
-  </div>
+<input
+id="password"
+type="password"
+placeholder="Our Secret Word">
 
-<!-- Update Popup -->
-<div id="updatePopup" class="update-popup hidden">
-    <div class="update-card">
+<button id="togglePassword">
 
-        <div class="heart">💖</div>
+👁
 
-        <h2>A Little Surprise!</h2>
+</button>
 
-        <p>
-            I've added new reasons why I love you.
-        </p>
-
-        <button id="updateBtn">
-            Read Them ❤️
-        </button>
-
-    </div>
 </div>
-<script src="reasons.js"></script>
-<script src="script.js"></script>
+
+<p id="error"></p>
+
+<button id="unlock">
+
+❤️ Open Our Memory ❤️
+
+</button>
+
+<script src="login.js"></script>
+
 </body>
 </html>
