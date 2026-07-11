@@ -17,7 +17,6 @@
 
     <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
 </head>
 
 <body>
@@ -64,22 +63,6 @@
     <p class="dap-footer-note">this list is never finished. i'll keep adding to it for as long as i'm loving you.</p>
   </div>
 
-  <div class="dap-sticker-tray">
-    <button class="dap-sticker-fab" id="dapStickerFab" aria-label="Add sticker" title="Add sticker">🎀</button>
-    <div class="dap-sticker-panel" id="dapStickerPanel" hidden>
-      <div class="dap-sticker-panel-head">
-        <span class="dap-sticker-panel-title">add a sticker</span>
-        <button class="dap-sticker-panel-close" id="dapStickerPanelClose" aria-label="close">×</button>
-      </div>
-      <div class="dap-sticker-options" id="dapStickerOptions"></div>
-      <label class="dap-sticker-upload">
-        📎 upload a PNG
-        <input type="file" accept="image/png,image/jpeg,image/webp" id="dapStickerUpload" hidden />
-      </label>
-      <div class="dap-sticker-hint">drag stickers anywhere · tap one to resize, rotate or delete</div>
-    </div>
-  </div>
-</div>
 <!-- Update Popup -->
 <div id="updatePopup" class="update-popup hidden">
     <div class="update-card">
@@ -98,5 +81,7 @@
 
     </div>
 </div>
+<script src="reasons.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
