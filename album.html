@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Our Album 🎶</title>
+
+    <meta name="theme-color" content="#F78DA7">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<script>
+if (sessionStorage.getItem("loveUnlocked") !== "true") {
+    window.location.href = "index.html";
+}
+</script>
+
+<div class="album-page" id="albumRoot">
+
+    <!-- Background -->
+    <div class="dap-blobs" id="dapBlobs"></div>
+    <div class="dap-pattern"></div>
+    <div class="dap-petals" id="dapPetals"></div>
+
+    <div class="album-wrap">
+
+        <!-- Back -->
+        <a class="album-back" href="app.html">
+            ‹ back to your reasons
+        </a>
+
+        <!-- Header -->
+        <div class="album-eyebrow">
+            a little mixtape, just for you
+        </div>
+
+        <h1 class="album-title">
+            Nigger <span></span>
+        </h1>
+
+        <p class="album-sub">
+        </p>
+
+
+        <!-- ================================= -->
+        <!-- GRAMOPHONE -->
+        <!-- ================================= -->
+
+        <div class="gramophone-stage" id="gramophoneStage">
+
+            <!-- Floating Music Notes -->
+            <div class="music-notes">
+                <span>♫</span>
+                <span>♪</span>
+                <span>♬</span>
+                <span>♪</span>
+                <span>♫</span>
+            </div>
+
+            <!-- Floating Dust -->
+            <div class="dust dust-1"></div>
+            <div class="dust dust-2"></div>
+            <div class="dust dust-3"></div>
+            <div class="dust dust-4"></div>
+            <div class="dust dust-5"></div>
+
+            <!-- Pixel Gramophone -->
+            <div
+                class="gramophone-art"
+                id="gramophoneArt">
+            </div>
+
+
+            <!-- Record sitting above the turntable -->
+            <div
+                class="now-vinyl"
+                id="nowVinyl">
+
+                <div
+                    class="now-vinyl-disc"
+                    id="nowVinylDisc"
+                    style="--label-color: var(--pink-deep);">
+
+                    <div
+                        class="now-vinyl-label"
+                        id="nowVinylLabel">
+                        ✧
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- NOW PLAYING -->
+        <!-- ================================= -->
+
+        <div class="now-playing-bar">
+
+            <button
+                class="play-pause-btn"
+                id="playPauseBtn"
+                aria-label="Play or pause">
+
+                ▶
+
+            </button>
+
+            <div class="now-playing-info">
+
+                <div
+                    class="now-playing-title"
+                    id="npTitle">
+
+                    pick a record below
+
+                </div>
+
+                <div
+                    class="now-playing-artist"
+                    id="npArtist">
+
+                    &nbsp;
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Progress -->
+        <div class="progress-track">
+
+            <div
+                class="progress-fill"
+                id="progressFill">
+            </div>
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- VINYL SHELF -->
+        <!-- ================================= -->
+
+        <div
+            class="vinyl-shelf"
+            id="vinylShelf">
+        </div>
+
+
+
+
+    <!-- Audio -->
+    <audio
+        id="albumAudio"
+        preload="none">
+    </audio>
+
+</div>
+
+
+<script src="album.js"></script>
+
+</body>
+</html>
